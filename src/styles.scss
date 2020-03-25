@@ -12,3 +12,26 @@ $s4-web-project-theme: mat-light-theme($s4-web-project-primary, $s4-web-project-
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.margin-less {
+  margin: 0 0 0 0 !important;
+}
+
+.padding-less {
+  padding: 0 0 0 0 !important;
+}
+
+.span {
+  @extend .margin-less;
+  @extend .padding-less;
+  &.block {
+    display: inline-block !important;
+  }
+}
+
+.flex {
+  display: flex;
+  flex-direction: row;
+  .grow {
+    flex-grow: 1;
+  }
+}
