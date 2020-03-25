@@ -1,14 +1,20 @@
-<div class="w3-container w3-padding">
-  <div class="w3-card-4">
-    <div class="w3-padding w3-border-bottom flex">
-      <h1 class="margin-less grow">Models</h1>
-      <button mat-raised-button color="accent">Create new Database Model</button>
-    </div>
-    <div class="w3-padding">
-      <mat-form-field appearance="fill">
-        <mat-label><label for="searchDB">Search</label></mat-label>
-        <input matInput id="searchDB" placeholder="Search a Model" [(ngModel)]="searchWord">
-      </mat-form-field>
-    </div>
+<div class="w3-card-4 w3-margin-top w3-margin-bottom">
+  <div class="w3-padding w3-border-bottom flex">
+    <h1 class="margin-less grow">Models</h1>
+    <button mat-raised-button color="accent">Create new Database Model</button>
+  </div>
+  <div class="w3-padding w3-margin-top">
+    <mat-form-field #inp class="blc" appearance="outline">
+      <mat-label><label for="searchDB">Search</label></mat-label>
+      <input matInput id="searchDB" placeholder="Search a Model" [(ngModel)]="searchWord">
+      <div matSuffix>
+        <mat-icon>search</mat-icon>
+      </div>
+    </mat-form-field>
+    <mat-list class="padding-less w3-border w3-round">
+      <mat-list-item *ngFor="let item of models" style="justify-content: space-between;" (click)="itemClicked(item)">
+        <span>{{item}}</span>
+      </mat-list-item>
+    </mat-list>
   </div>
 </div>

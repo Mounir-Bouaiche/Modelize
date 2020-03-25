@@ -7,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WelcomeComponent implements OnInit {
   searchWord = '';
+  models: string[];
 
   constructor() { }
 
   ngOnInit(): void {
+    this.models = [];
+    for (let i = 0; i < 12; i++) {
+      this.models.push('model 1');
+    }
   }
 
+  itemClicked(item: string) {
+  }
 }

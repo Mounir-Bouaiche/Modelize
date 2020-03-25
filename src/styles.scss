@@ -35,3 +35,24 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     flex-grow: 1;
   }
 }
+
+.mat-form-field {
+  transition: all 500ms;
+  min-width: 75%;
+  &.blc {
+    display: inline-block !important;
+    min-width: 100%;
+  }
+}
+
+mat-list-item:nth-of-type(odd) {
+  background-color: #f1f1f1;
+}
+
+mat-list-item:hover {
+  background-color: map-get($mat-blue, 100);
+}
+
+mat-list {
+  overflow: hidden;
+}
