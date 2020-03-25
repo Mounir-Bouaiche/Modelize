@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
+@include mat-core();
+
+$s4-web-project-primary: mat-palette($mat-blue, A400, A100, A700);
+$s4-web-project-accent: mat-palette($mat-pink, A200, A100, A400);
+
+$s4-web-project-warn: mat-palette($mat-red);
+
+$s4-web-project-theme: mat-light-theme($s4-web-project-primary, $s4-web-project-accent, $s4-web-project-warn);
+
+@include angular-material-theme($s4-web-project-theme);
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
