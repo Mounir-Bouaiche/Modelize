@@ -15,12 +15,20 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {FormsModule} from '@angular/forms';
+import { ModelEditorComponent } from './model-editor/model-editor.component';
+import { ModelToolsComponent } from './model-tools/model-tools.component';
+import { TableComponent } from './model-tools/table/table.component';
+import { RelationshipComponent } from './model-tools/relationship/relationship.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainPageComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    ModelEditorComponent,
+    ModelToolsComponent,
+    TableComponent,
+    RelationshipComponent
   ],
   imports: [
     BrowserModule,
