@@ -27,19 +27,18 @@
     <div class="w3-padding" style="overflow: auto">
       <div (mousedown)="add_table($event)" [class.new_loc]="newTable"
            id="model-space" style="height: 1000px; width: 5000px; position: relative">
-        <sql-table #tableModel (cdkDragMoved)="table.pos = $event.source.getFreeDragPosition()" (mousedown)="tableClicked(table, $event)"
-                   *ngFor="let table of selectedModel.tables" [cdkDragDisabled]="!!newRel"
-                   [cdkDragFreeDragPosition]="tableModel.sourceP"
-                   [id]="table.name" [table]="table"
-                   cdkDrag cdkDragBoundary="#model-space" style="position: absolute;">
+        <sql-table #tableModel *ngFor="let table of selectedModel.tables" [cdkDragDisabled]="!!newRel"
+                   [id]="table.name" (cdkDragMoved)="table.pos = $event.source.getFreeDragPosition()"
+                   (mousedown)="tableClicked(table, $event)" [cdkDragFreeDragPosition]="tableModel.sourceP"
+                   [table]="table" cdkDrag cdkDragBoundary="#model-space" style="position: absolute;">
         </sql-table>
         <svg *ngIf="tables" style="position:absolute;width: 100%; height: 100%; top: 0; z-index: -1;">
-          <line #line *ngFor="let rel of selectedModel.relationships" [attr.x1]="line.source.table.pos.x + line.source.el.offsetWidth  / 2" [attr.x2]="line.target.table.pos.x + line.target.el.offsetWidth  / 2" [attr.y1]="line.source.table.pos.y + line.source.el.offsetHeight / 2"
-                [attr.y2]="line.target.table.pos.y + line.target.el.offsetHeight / 2" [source]="getTable(rel.source)"
-                [target]="getTable(rel.target)"
-                relationship
-                stroke="black"
-                stroke-width="2">
+          <line relationship stroke="black" stroke-width="2" #line *ngFor="let rel of selectedModel.relationships"
+                [attr.x1]="line.source.table.pos.x + line.source.el.offsetWidth  / 2"
+                [attr.x2]="line.target.table.pos.x + line.target.el.offsetWidth  / 2"
+                [attr.y1]="line.source.table.pos.y + line.source.el.offsetHeight / 2"
+                [attr.y2]="line.target.table.pos.y + line.target.el.offsetHeight / 2"
+                [source]="getTable(rel.source)" [target]="getTable(rel.target)">
           </line>
           Sorry Your Browser doesn't support SVG :'(
         </svg>
