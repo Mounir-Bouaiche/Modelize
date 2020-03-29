@@ -1,19 +1,23 @@
-<div class="w3-card-4 w3-margin-top w3-margin-bottom">
-  <div class="w3-padding w3-border-bottom flex">
-    <h1 class="margin-less grow">Models</h1>
-    <button mat-raised-button color="accent">Create new Database Model</button>
+<div class="w3-card-4 w3-margin-top w3-margin-bottom w3-content" style="max-width: 800px">
+  <div class="w3-border-bottom flex">
+    <h1 class="w3-padding margin-less grow">Models</h1>
+    <button (click)="openModal()" color="accent" mat-raised-button>
+      <mat-icon>add_circle_outline</mat-icon>
+      New Model
+    </button>
   </div>
   <div class="w3-padding w3-margin-top">
-    <mat-form-field #inp class="blc" appearance="outline">
+    <mat-form-field appearance="outline" class="blc">
       <mat-label><label for="searchDB">Search</label></mat-label>
-      <input matInput id="searchDB" placeholder="Search a Model" [(ngModel)]="searchWord">
+      <input [(ngModel)]="searchWord" id="searchDB" matInput placeholder="Search a Model">
       <div matSuffix>
         <mat-icon>search</mat-icon>
       </div>
     </mat-form-field>
-    <mat-list class="padding-less w3-border w3-round">
-      <mat-list-item *ngFor="let item of models" style="justify-content: space-between;" (click)="itemClicked(item)">
-        <span>{{item}}</span>
+    <mat-list class="padding-less w3-border w3-round w3-margin-bottom">
+      <mat-list-item *ngFor="let model of models | filterBy: searchWord" [routerLink]="['/editor', model.name]"
+                     class="pointer">
+        <span class="mat-h3 margin-less">{{ model.name }}</span>
       </mat-list-item>
     </mat-list>
   </div>

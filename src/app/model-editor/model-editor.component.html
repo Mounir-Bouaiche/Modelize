@@ -1,1 +1,49 @@
-<p>model-editor works!</p>
+<mat-sidenav-container class="sidenav-container w3-card-4">
+  <mat-sidenav #drawer [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+    <mat-toolbar class="secondary">
+      <mat-icon>build</mat-icon>
+      <span>Tools</span></mat-toolbar>
+    <mat-list>
+      <mat-list-item (click)="create_table()" [class.active]="newTable">Table</mat-list-item>
+      <mat-list-item>RelationShip</mat-list-item>
+    </mat-list>
+    <span *ngIf="selectedTable" class="w3-animate-left">
+      <mat-toolbar class="secondary"><mat-icon>info</mat-icon><span>Properties</span></mat-toolbar>
+      <table-prop [table]="selectedTable"></table-prop>
+    </span>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar class="secondary">
+      <div *ngIf="isHandset$ | async">
+        <button (click)="drawer.toggle()" mat-icon-button>
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+      </div>
+      <span class="grow">{{ selectedModel.name }}</span>
+      <button class="w3-margin-right" color="accent" mat-raised-button>Save</button>
+      <button color="accent" mat-raised-button>Generate</button>
+    </mat-toolbar>
+    <div class="w3-padding" style="overflow: auto">
+      <div (mousedown)="add_table($event)" [class.new_loc]="newTable"
+           id="model-space" style="height: 1000px; width: 5000px; position: relative">
+        <sql-table #tableModel (cdkDragMoved)="table.pos = $event.source.getFreeDragPosition()" (mousedown)="tableClicked(table, $event)"
+                   *ngFor="let table of selectedModel.tables" [cdkDragDisabled]="!!newRel"
+                   [cdkDragFreeDragPosition]="tableModel.sourceP"
+                   [id]="table.name" [table]="table"
+                   cdkDrag cdkDragBoundary="#model-space" style="position: absolute;">
+        </sql-table>
+        <svg *ngIf="tables" style="position:absolute;width: 100%; height: 100%; top: 0; z-index: -1;">
+          <line #line *ngFor="let rel of selectedModel.relationships" [attr.x1]="line.source.table.pos.x + line.source.el.offsetWidth  / 2" [attr.x2]="line.target.table.pos.x + line.target.el.offsetWidth  / 2" [attr.y1]="line.source.table.pos.y + line.source.el.offsetHeight / 2"
+                [attr.y2]="line.target.table.pos.y + line.target.el.offsetHeight / 2" [source]="getTable(rel.source)"
+                [target]="getTable(rel.target)"
+                relationship
+                stroke="black"
+                stroke-width="2">
+          </line>
+          Sorry Your Browser doesn't support SVG :'(
+        </svg>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

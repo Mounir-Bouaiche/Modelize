@@ -1,0 +1,65 @@
+<div class="w3-padding">
+  <mat-form-field appearance="outline" class="blc">
+    <mat-label>Name</mat-label>
+    <input [(ngModel)]="table.name" id="name" matInput required>
+    <mat-error>You must specify a name !</mat-error>
+  </mat-form-field>
+</div>
+<div class="flex secondary" style="justify-content: space-between; align-items: center">
+  <span class="w3-margin w3-xlarge">Columns</span>
+  <mat-icon (click)="addField()" class="w3-margin-right accent w3-circle pointer w3-card">add</mat-icon>
+</div>
+<div class="w3-padding w3-border-bottom">
+  <mat-form-field *ngFor="let field of table.fields" appearance="outline" class="blc">
+    <mat-label>Name</mat-label>
+    <input [(ngModel)]="field.name" [id]="field.name" matInput required>
+    <button [matMenuTriggerFor]="menu" mat-icon-button matSuffix>
+      <mat-icon class="pink-txt">edit</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <div (click)="$event.stopPropagation()">
+        <div mat-menu-item>
+          <mat-form-field appearance="legacy" class="blc" color="accent">
+            <mat-label>Type</mat-label>
+            <mat-select [(value)]="field.type">
+              <mat-option *ngFor="let type of mySQL" [value]="type">{{ getType(type) }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div mat-menu-item>
+          <mat-form-field appearance="legacy" class="blc" color="accent">
+            <mat-label>Length</mat-label>
+            <input (keydown)="noError($event)" [(ngModel)]="field.length" matInput>
+          </mat-form-field>
+        </div>
+        <div mat-menu-item>
+          <mat-checkbox #pk [(ngModel)]="field.primary_key"
+                        [checked]="!pk.disabled? pk.checked : false"
+                        [disabled]="field.nullable || field.unique">
+            Primary Key
+          </mat-checkbox>
+        </div>
+        <div mat-menu-item>
+          <mat-checkbox #ch_nl [(ngModel)]="field.nullable" [checked]="!ch_nl.disabled? ch_nl.checked : false"
+                        [disabled]="field.primary_key">
+            Nullable
+          </mat-checkbox>
+        </div>
+        <div mat-menu-item>
+          <mat-checkbox #ch_ai [(ngModel)]="field.auto_increment" [checked]="!ch_ai.disabled? ch_ai.checked : false"
+                        [disabled]="pk.disabled || getType(field.type) !== 'INTEGER'">
+            Auto Increment
+          </mat-checkbox>
+        </div>
+        <div mat-menu-item>
+          <mat-checkbox #ch_uq [(ngModel)]="field.unique"
+                        [checked]="!ch_uq.disabled? ch_uq.checked : false"
+                        [disabled]="field.primary_key">
+            Unique
+          </mat-checkbox>
+        </div>
+      </div>
+    </mat-menu>
+    <mat-error>You must specify a name !</mat-error>
+  </mat-form-field>
+</div>

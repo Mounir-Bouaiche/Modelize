@@ -1,15 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {TableComponent} from '../table/table.component';
 
 @Component({
-  selector: 'relationship',
-  templateUrl: './relationship.component.html',
-  styleUrls: ['./relationship.component.scss']
+  selector: '[relationship]',
+  template: ''
 })
-export class RelationshipComponent implements OnInit {
+export class RelationshipComponent {
+  @Input() source: TableComponent;
+  @Input() target: TableComponent;
+}
 
-  constructor() { }
+export enum RelationshipType {
+  ONE_TO_ONE = '1:1',
+  ONE_TO_MANY = '1:n',
+  MANY_TO_ONE = 'n:1',
+  MANY_TO_MANY = 'n:n'
+}
 
-  ngOnInit(): void {
-  }
-
+export interface Relationship {
+  id: string;
+  source: string;
+  target: string;
+  type: RelationshipType;
 }

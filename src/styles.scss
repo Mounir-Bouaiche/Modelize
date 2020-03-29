@@ -1,7 +1,8 @@
 @import '~@angular/material/theming';
+
 @include mat-core();
 
-$s4-web-project-primary: mat-palette($mat-blue, A400, A100, A700);
+$s4-web-project-primary: mat-palette($mat-teal, 600, A100, A700);
 $s4-web-project-accent: mat-palette($mat-pink, A200, A100, A400);
 
 $s4-web-project-warn: mat-palette($mat-red);
@@ -10,8 +11,15 @@ $s4-web-project-theme: mat-light-theme($s4-web-project-primary, $s4-web-project-
 
 @include angular-material-theme($s4-web-project-theme);
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
 .margin-less {
   margin: 0 0 0 0 !important;
 }
@@ -23,6 +31,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .span {
   @extend .margin-less;
   @extend .padding-less;
+
   &.block {
     display: inline-block !important;
   }
@@ -31,18 +40,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .flex {
   display: flex;
   flex-direction: row;
-  .grow {
-    flex-grow: 1;
-  }
+}
+
+.grow {
+  flex-grow: 1;
 }
 
 .mat-form-field {
   transition: all 500ms;
   min-width: 75%;
-  &.blc {
-    display: inline-block !important;
-    min-width: 100%;
-  }
+}
+
+.blc {
+  display: block !important;
+  min-width: 100%;
 }
 
 mat-list-item:nth-of-type(odd) {
@@ -55,4 +66,86 @@ mat-list-item:hover {
 
 mat-list {
   overflow: hidden;
+}
+
+.pointer {
+  cursor: pointer !important;
+}
+
+mat-toolbar, mat-toolbar-row {
+  + div {
+    height: calc(100% - 64px);
+  }
+}
+
+mat-sidenav-container {
+  height: 100%;
+}
+
+mat-sidenav {
+  width: 250px;
+}
+
+.secondary {
+  background-color: map-get($mat-teal, 400);
+  color: white;
+}
+
+.card-container {
+  padding: 18px;
+}
+
+button {
+  border-radius: 0 0 0 0 !important;
+}
+
+.w3-card {
+  @include mat-elevation(3);
+}
+
+.w3-card-4 {
+  @include mat-elevation(6);
+}
+
+.w3-medium {
+  font-size: 16px !important;
+}
+
+.mat-form-field-flex {
+  align-items: center !important;
+}
+
+sql-table > div {
+  transition: box-shadow 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+sql-table > div:active {
+  @include mat-elevation(10);
+}
+
+.new_loc {
+  cursor: url('src/assets/loc.svg') 16 32, auto;
+}
+
+.active {
+  background-color: map-get($mat-teal, 500) !important;
+  color: white !important;
+}
+
+.green {
+  background-color: map-get($mat-green, A700);
+  color: white;
+}
+
+.pink-txt {
+  color: map-get($mat-pink, 500);
+}
+
+.accent {
+  background-color: map-get($mat-pink, 500);
+  color: white;
+}
+
+.accent-txt {
+  color: map-get($mat-pink, 500);
 }

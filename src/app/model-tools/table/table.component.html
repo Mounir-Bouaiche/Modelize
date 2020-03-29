@@ -1,1 +1,8 @@
-<p>table works!</p>
+<div #element
+     class="green white-txt pointer w3-card w3-border w3-round-large" style="min-width: 150px">
+  <div class="w3-padding w3-center w3-medium">{{ table.name }}</div>
+  <mat-divider></mat-divider>
+  <div *ngFor="let field of table.fields" class="w3-padding">
+    {{ field.name }} {{ getType(field.type) + (field.length ? '(' + field.length + ')' : '') }}
+  </div>
+</div>
