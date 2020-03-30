@@ -8,10 +8,11 @@ import {MySQLType, TableModel} from '../../services/model.service';
 })
 export class TableComponent implements OnInit, AfterViewChecked {
   @Input() table: TableModel;
-  @Output() clicked = new EventEmitter<MouseEvent>();
+  @Output() onCloseClicked = new EventEmitter<MouseEvent>();
+  @ViewChild('element') private element;
+
   el: HTMLDivElement;
   sourceP: { x: number, y: number };
-  @ViewChild('element') private element;
 
   ngOnInit(): void {
     if (!this.table.pos) {

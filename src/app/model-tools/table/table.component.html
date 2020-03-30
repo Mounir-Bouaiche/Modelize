@@ -1,5 +1,11 @@
 <div #element
-     class="green white-txt pointer w3-card w3-border w3-round-large" style="min-width: 150px">
+     class="green white-txt pointer w3-card w3-border w3-round-large hide-until-hover" style="min-width: 150px; position:relative;">
+    <div class="w3-circle accent w3-card mat-icon hover-item" (click)="onCloseClicked.emit($event)"
+          style="position: absolute; top: 0; right: 0; transform: translate(30%, -30%); width: 24px; height: 24px">
+      <mat-icon class="w3-medium" style="width: 16px; height: 16px; margin: auto">
+        close
+      </mat-icon>
+    </div>
   <div class="w3-padding w3-center w3-medium">{{ table.name }}</div>
   <mat-divider></mat-divider>
   <div *ngFor="let field of table.fields" class="w3-padding">

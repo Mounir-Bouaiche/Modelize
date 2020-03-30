@@ -6,7 +6,7 @@ export class ModelService {
   private MODELS: Model[] = [
     {
       id: '147d74f8d8',
-      name: 'model 1',
+      name: 'MANY_TO_MANY',
       tables: [
         {
           name: 'Table 1',
@@ -21,20 +21,23 @@ export class ModelService {
               name: 'column1',
               type: MySQLType.DATE
             }
-          ]
+          ],
+          pos: {x: 0, y: 0}
         },
         {
           name: 'Table 2',
           fields: [
             {
               name: 'column3',
-              type: MySQLType.VARCHAR
+              type: MySQLType.INTEGER,
+              primary_key: true,
             },
             {
               name: 'column4',
               type: MySQLType.INTEGER
             }
-          ]
+          ],
+          pos: {x: 500, y: 0}
         }
       ],
       relationships: [
@@ -43,6 +46,141 @@ export class ModelService {
           source: 'Table 1',
           target: 'Table 2',
           type: RelationshipCardinality.MANY_TO_MANY
+        }
+      ]
+    },
+    {
+      id: 'HJHSUS',
+      name: 'MANY_TO_ONE',
+      tables: [
+        {
+          name: 'Table 1',
+          fields: [
+            {
+              name: 'column1',
+              type: MySQLType.INTEGER,
+              primary_key: true,
+              auto_increment: true
+            },
+            {
+              name: 'column1',
+              type: MySQLType.DATE
+            }
+          ],
+          pos: {x: 0, y: 0}
+        },
+        {
+          name: 'Table 2',
+          fields: [
+            {
+              name: 'column3',
+              type: MySQLType.INTEGER,
+              primary_key: true,
+            },
+            {
+              name: 'column4',
+              type: MySQLType.INTEGER
+            }
+          ],
+          pos: {x: 500, y: 0}
+        }
+      ],
+      relationships: [
+        {
+          name: 'Relationship',
+          source: 'Table 1',
+          target: 'Table 2',
+          type: RelationshipCardinality.MANY_TO_ONE
+        }
+      ]
+    },
+    {
+      id: 'HJHSDDUS',
+      name: 'ONE_TO_MANY',
+      tables: [
+        {
+          name: 'Table 1',
+          fields: [
+            {
+              name: 'column1',
+              type: MySQLType.INTEGER,
+              primary_key: true,
+              auto_increment: true
+            },
+            {
+              name: 'column1',
+              type: MySQLType.DATE
+            }
+          ],
+          pos: {x: 0, y: 0}
+        },
+        {
+          name: 'Table 2',
+          fields: [
+            {
+              name: 'column3',
+              type: MySQLType.INTEGER,
+              primary_key: true,
+            },
+            {
+              name: 'column4',
+              type: MySQLType.INTEGER
+            }
+          ],
+          pos: {x: 500, y: 0}
+        }
+      ],
+      relationships: [
+        {
+          name: 'Relationship',
+          source: 'Table 1',
+          target: 'Table 2',
+          type: RelationshipCardinality.ONE_TO_MANY
+        }
+      ]
+    },
+    {
+      id: 'HJ15151HSUS',
+      name: 'ONE_TO_ONE',
+      tables: [
+        {
+          name: 'Table 1',
+          fields: [
+            {
+              name: 'column1',
+              type: MySQLType.INTEGER,
+              primary_key: true,
+              auto_increment: true
+            },
+            {
+              name: 'column1',
+              type: MySQLType.DATE
+            }
+          ],
+          pos: {x: 0, y: 0}
+        },
+        {
+          name: 'Table 2',
+          fields: [
+            {
+              name: 'column3',
+              type: MySQLType.INTEGER,
+              primary_key: true,
+            },
+            {
+              name: 'column4',
+              type: MySQLType.INTEGER
+            }
+          ],
+          pos: {x: 500, y: 0}
+        }
+      ],
+      relationships: [
+        {
+          name: 'Relationship',
+          source: 'Table 1',
+          target: 'Table 2',
+          type: RelationshipCardinality.ONE_TO_ONE
         }
       ]
     }

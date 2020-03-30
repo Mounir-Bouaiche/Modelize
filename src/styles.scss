@@ -98,7 +98,7 @@ mat-sidenav {
   padding: 18px;
 }
 
-button {
+button:not(.w3-circle) {
   border-radius: 0 0 0 0 !important;
 }
 
@@ -166,10 +166,40 @@ sql-table > div:active {
   cursor: url('src/assets/link.svg') 16 32, auto !important;
 }
 
-.hljs-ln-numbers {
-  padding-right: 12px !important;
+.hljs-ln {
+  td{
+    vertical-align: center;
+    padding: 3px 12px !important;
+    &:first-child {
+      text-align: right;
+      border-right: 1px solid #505050;
+    }
+  }
 }
 
 [mat-align-tabs="start"] .mat-tab-labels {
   justify-content: start !important;
+}
+
+div.mat-icon {
+  display: flex;
+}
+
+.hide-until-hover {
+  .hover-item {
+    display: none !important;
+    animation: show 200ms ease-in-out;
+  }
+  &:hover .hover-item {
+    display: flex !important;
+  }
+}
+
+@keyframes show {
+  from {
+    transform: scale(0) rotate(90deg) translate(0, 0);
+  }
+  to {
+    transform: scale(1) rotate(0) translate(30%, -30%);
+  }
 }

@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, Pipe, PipeTransform} from '@angular/core';
 import {Model, MySQLType, TableModel} from '../../services/model.service';
 import {RelationshipCardinality} from '../../model-tools/relationship/relationship.component';
+import {camel_case} from '../result.component';
 
 @Component({
   selector: 'java',
@@ -16,19 +17,7 @@ export class JavaComponent implements OnInit {
   ngOnInit(): void {
     this.model?.relationships.forEach(rel => {
       if (rel.type === RelationshipCardinality.MANY_TO_MANY) {
-        this.relTables.push({
-          name: rel.name,
-          fields: [
-            {
-              name: rel.source,
-              type: rel.source
-            },
-            {
-              name: rel.target,
-              type: rel.target
-            }
-          ]
-        });
+        this.relTables.push({name: rel.name, fields: [{name: rel.source, type: rel.source}, {name: rel.target, type: rel.target}]});
       }
     });
   }
@@ -45,8 +34,8 @@ export class JavaComponent implements OnInit {
         line.push(char);
         if (char === '}') indent--;
         if (char.search(/[;{}]/g) !== -1) {
+          if (char === '{') lines.push('');
           lines.push('    '.repeat(indent) + line.join(''));
-          lines.push('');
           line = [];
         }
         if (char === '{') indent++;
@@ -63,33 +52,43 @@ export class JavaComponent implements OnInit {
     code += this.class(table.name) + ' {';
     table.fields.forEach(field => {
       tp = this.getType(field.type);
-      constrcuct.push(tp + ' ' + this.case(field.name));
-      code += this.property(this.case(field.name), tp);
+      constrcuct.push(tp + ' ' + camel_case(field.name));
+      code += this.property(camel_case(field.name), tp);
     });
     this.model.relationships.forEach(rel => {
       tp = '';
       if (rel.source === table.name) {
         if (rel.type === RelationshipCardinality.ONE_TO_ONE) {
-          tp = this.case(rel.target, true);
+          tp = camel_case(rel.target, true);
         } else if (rel.type === RelationshipCardinality.ONE_TO_MANY) {
-          tp = this.case(rel.target, true) + '[]';
+          tp = camel_case(rel.target, true) + '[]';
         }
         if (tp !== '') {
-          constrcuct.push(tp + ' ' + this.case(rel.target));
-          code += this.property(this.case(rel.target), tp);
+          constrcuct.push(tp + ' ' + camel_case(rel.target));
+          code += this.property(camel_case(rel.target), tp);
+        }
+      } else if (rel.target === table.name) {
+        if (rel.type === RelationshipCardinality.ONE_TO_ONE) {
+          tp = camel_case(rel.source, true);
+        } else if (rel.type === RelationshipCardinality.MANY_TO_ONE) {
+          tp = camel_case(rel.source, true) + '[]';
+        }
+        if (tp !== '') {
+          constrcuct.push(tp + ' ' + camel_case(rel.source));
+          code += this.property(camel_case(rel.source), tp);
         }
       }
     });
-    code += 'public ' + this.case(table.name, true) + '(' + constrcuct.join(', ') + ') {';
+    code += 'public ' + camel_case(table.name, true) + '(' + constrcuct.join(', ') + ') {';
     table.fields.forEach(fld => {
-      code += 'this.' + this.case(fld.name) + ' = ' + this.case(fld.name) + ';';
+      code += 'this.' + camel_case(fld.name) + ' = ' + camel_case(fld.name) + ';';
     });
     code += '}';
     constrcuct.forEach(fld => {
       const t = fld.split(' ')[0];
       const f = fld.split(' ')[1];
-      code += `public ${t} get${this.case(f, true)}() { return this.${f}; }`;
-      code += `public void set${this.case(f, true)}(${t} ${f}) { this.${f} = ${f}; }`;
+      code += `public ${t} get${camel_case(f, true)}() { return this.${f}; }`;
+      code += `public void set${camel_case(f, true)}(${t} ${f}) { this.${f} = ${f}; }`;
     });
     code += '}';
     return this.format(code);
@@ -97,7 +96,7 @@ export class JavaComponent implements OnInit {
 
   getType(mySQLType: MySQLType | string): string {
     if (typeof(mySQLType) === 'string') {
-      return this.case(mySQLType, true);
+      return camel_case(mySQLType, true);
     } else {
       switch (mySQLType) {
         case MySQLType.VARCHAR:
@@ -115,26 +114,19 @@ export class JavaComponent implements OnInit {
   }
 
   property(st: string, type: string) {
-    return 'private ' + type + ' ' + this.case(st) + ';';
+    return 'private ' + type + ' ' + camel_case(st) + ';';
   }
 
   class(st: string) {
-    return 'public class ' + this.case(st, true);
+    return 'public class ' + camel_case(st, true);
   }
 
   package(st: string, packageN: string) {
-    return 'package ' + packageN + '.' + this.case(st) + ';';
+    return 'package ' + packageN + '.' + camel_case(st) + ';';
   }
 
-  case(st: string, cap?: boolean) {
-    if (st.includes(' ')) st.replace(/[ ]{2,}/g, ' ');
-    st = st.toLowerCase();
-    const St: string[] = st.split('');
-    for (let i in St) {
-      if (St[i] === ' ') St[parseInt(i) + 1] = St[parseInt(i) + 1].toUpperCase();
-    }
-    if (cap) St[0] = St[0].toUpperCase();
-    return St.join('').replace(' ', '');
+  j_camel_case(name: any, b: boolean) {
+    camel_case(name, b);
   }
 }
 

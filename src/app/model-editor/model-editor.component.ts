@@ -118,6 +118,15 @@ export class ModelEditorComponent implements OnInit, AfterViewInit {
       } else this.newRel.source = '';
     }
   }
+
+  trackTables(index: number, table: TableModel) { return table.name; }
+
+  deleteTable($event: MouseEvent, tablePos: number, tab: TableModel) {
+    $event.stopPropagation();
+    this.selectedModel.relationships = this.selectedModel.relationships.filter(rel => rel.source !== tab.name && rel.target !== tab.name);
+    this.selectedModel.tables.splice(tablePos, 1);
+    this.selectedTable = undefined;
+  }
 }
 
 @Component({
@@ -125,6 +134,10 @@ export class ModelEditorComponent implements OnInit, AfterViewInit {
   template: `
     <h1 mat-dialog-title>RelationShip Properties</h1>
     <div mat-dialog-content>
+      <mat-form-field appearance="outline" class="blc">
+        <mat-label>RelationShip Name</mat-label>
+        <input matInput [(ngModel)]="data.rel.name">
+      </mat-form-field>
       <mat-form-field appearance="outline" class="blc">
         <mat-label>Table Source</mat-label>
         <mat-select [(value)]="data.rel.source">
@@ -147,7 +160,7 @@ export class ModelEditorComponent implements OnInit, AfterViewInit {
     <div mat-dialog-actions style="margin-bottom: -16px;">
       <button mat-button (click)="closeDialog()" class="grow w3-border">Cancel</button>
       <button mat-raised-button color="accent" [mat-dialog-close]="data"
-              [disabled]="data.rel.source === data.rel.target" (click)="addRel()">
+              [disabled]="!data.rel.name || data.rel.source === data.rel.target" (click)="addRel()">
         Confirm
       </button>
     </div>
@@ -175,6 +188,7 @@ export class NewRelModalComponent implements OnInit {
 
   addRel() {
     this.data.selectedModel.relationships.push(this.data.rel);
+    this.closeDialog();
   }
 
   closeDialog(): void {

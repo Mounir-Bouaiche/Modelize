@@ -26,11 +26,12 @@
     <div class="w3-padding" style="overflow: auto">
       <div (mousedown)="add_table($event)" [class.new_loc]="newTable"
            id="model-space" style="height: 1000px; width: 5000px; position: relative">
-        <sql-table #tableModel *ngFor="let table of selectedModel.tables" [cdkDragDisabled]="!!newRel"
+        <sql-table #tableModel *ngFor="let table of selectedModel.tables; index as i; trackBy: trackTables" [cdkDragDisabled]="!!newRel"
                    [id]="table.name" (cdkDragMoved)="table.pos = $event.source.getFreeDragPosition()"
                    (mousedown)="tableClicked(table, $event)" (mouseup)="targetSelected(table)"
                    [class.src]="newRel && !newRel?.source" [class.trg]="newRel?.source && !newRel?.target"
                    [cdkDragFreeDragPosition]="tableModel.sourceP"
+                   (onCloseClicked)="deleteTable($event, i, table)"
                    [table]="table" cdkDrag cdkDragBoundary="#model-space" style="position: absolute;">
         </sql-table>
         <svg *ngIf="tables" style="position:absolute;width: 100%; height: 100%; top: 0; z-index: -1;">
