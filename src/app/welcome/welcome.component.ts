@@ -39,7 +39,7 @@ export class WelcomeComponent implements OnInit {
     </div>
     <div mat-dialog-actions style="margin-bottom: -16px;">
       <button mat-button (click)="closeDialog()" class="grow w3-border">Cancel</button>
-      <button mat-raised-button color="accent" [mat-dialog-close]="data" [disabled]="!data" (click)="add_model()">Ok</button>
+      <button mat-raised-button color="accent" [mat-dialog-close]="data" [disabled]="!data" (click)="add_model()">Create Model</button>
     </div>
   `
 })

@@ -10,7 +10,7 @@ export class RelationshipComponent {
   @Input() target: TableComponent;
 }
 
-export enum RelationshipType {
+export enum RelationshipCardinality {
   ONE_TO_ONE = '1:1',
   ONE_TO_MANY = '1:n',
   MANY_TO_ONE = 'n:1',
@@ -18,8 +18,8 @@ export enum RelationshipType {
 }
 
 export interface Relationship {
-  id: string;
+  name: string;
   source: string;
   target: string;
-  type: RelationshipType;
+  type: RelationshipCardinality;
 }

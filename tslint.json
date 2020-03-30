@@ -41,6 +41,9 @@
         ]
       }
     ],
+    "prefer-const": false,
+    "radix": false,
+    "curly": false,
     "no-consecutive-blank-lines": false,
     "no-console": [
       true,

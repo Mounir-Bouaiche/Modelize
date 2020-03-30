@@ -1,3 +1,5 @@
+@import '~highlight.js/styles/atom-one-light.css';
+
 @import '~@angular/material/theming';
 
 @include mat-core();
@@ -69,10 +71,11 @@ mat-list {
 }
 
 .pointer {
-  cursor: pointer !important;
+  cursor: pointer;
 }
 
 mat-toolbar, mat-toolbar-row {
+  z-index: 50 !important;
   + div {
     height: calc(100% - 64px);
   }
@@ -117,6 +120,11 @@ button {
 
 sql-table > div {
   transition: box-shadow 250ms cubic-bezier(0, 0, 0.2, 1);
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
 }
 
 sql-table > div:active {
@@ -143,9 +151,25 @@ sql-table > div:active {
 
 .accent {
   background-color: map-get($mat-pink, 500);
+  opacity: 1 !important;
   color: white;
 }
 
 .accent-txt {
   color: map-get($mat-pink, 500);
+}
+
+.src , .src * {
+  cursor: url('src/assets/touch.svg') 16 32, auto !important;
+}
+.trg, .trg * {
+  cursor: url('src/assets/link.svg') 16 32, auto !important;
+}
+
+.hljs-ln-numbers {
+  padding-right: 12px !important;
+}
+
+[mat-align-tabs="start"] .mat-tab-labels {
+  justify-content: start !important;
 }

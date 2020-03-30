@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Relationship, RelationshipType} from '../model-tools/relationship/relationship.component';
+import {Relationship, RelationshipCardinality} from '../model-tools/relationship/relationship.component';
 
 @Injectable({providedIn: 'root'})
 export class ModelService {
@@ -39,10 +39,10 @@ export class ModelService {
       ],
       relationships: [
         {
-          id: '145454',
+          name: 'Relationship',
           source: 'Table 1',
           target: 'Table 2',
-          type: RelationshipType.MANY_TO_MANY
+          type: RelationshipCardinality.MANY_TO_MANY
         }
       ]
     }
@@ -66,7 +66,7 @@ export enum MySQLType {
 
 export interface TableModelField {
   name: string;
-  type: MySQLType;
+  type: MySQLType | string;
   length?: number;
   primary_key?: boolean;
   auto_increment?: boolean;

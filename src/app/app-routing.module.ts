@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {MainPageComponent} from './main-page/main-page.component';
 import {WelcomeComponent} from './welcome/welcome.component';
 import {ModelEditorComponent} from './model-editor/model-editor.component';
+import {ResultComponent} from './result/result.component';
 
 
 const routes: Routes = [
@@ -17,6 +18,10 @@ const routes: Routes = [
       {
         path: 'editor/:model',
         component: ModelEditorComponent
+      },
+      {
+        path: 'result/:model',
+        component: ResultComponent
       }
     ]
   }

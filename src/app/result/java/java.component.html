@@ -1,0 +1,9 @@
+<mat-form-field appearance="outline" class="blc">
+  <mat-label>Package Name</mat-label>
+  <input matInput [(ngModel)]="packageN">
+</mat-form-field>
+<mat-tab-group mat-align-tabs="start" class="w3-border">
+  <mat-tab *ngFor="let table of tables | append: model.tables : relTables" [label]="case(table.name, true) + '.java'">
+    <pre class="margin-less"><code class="w3-code margin-less" [lineNumbers]="true" [highlight]="convert(table)" [languages]="['java']"></code></pre>
+  </mat-tab>
+</mat-tab-group>

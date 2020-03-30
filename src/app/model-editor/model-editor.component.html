@@ -6,7 +6,7 @@
       <span>Tools</span></mat-toolbar>
     <mat-list>
       <mat-list-item (click)="create_table()" [class.active]="newTable">Table</mat-list-item>
-      <mat-list-item>RelationShip</mat-list-item>
+      <mat-list-item (click)="create_rel()" [class.active]="newRel">RelationShip</mat-list-item>
     </mat-list>
     <span *ngIf="selectedTable" class="w3-animate-left">
       <mat-toolbar class="secondary"><mat-icon>info</mat-icon><span>Properties</span></mat-toolbar>
@@ -20,16 +20,17 @@
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
       </div>
-      <span class="grow">{{ selectedModel.name }}</span>
-      <button class="w3-margin-right" color="accent" mat-raised-button>Save</button>
-      <button color="accent" mat-raised-button>Generate</button>
+      <span class="grow" style="text-transform: capitalize">{{ selectedModel.name }}</span>
+      <button color="accent" mat-raised-button [routerLink]="['/result', selectedModel.name]">Generate</button>
     </mat-toolbar>
     <div class="w3-padding" style="overflow: auto">
       <div (mousedown)="add_table($event)" [class.new_loc]="newTable"
            id="model-space" style="height: 1000px; width: 5000px; position: relative">
         <sql-table #tableModel *ngFor="let table of selectedModel.tables" [cdkDragDisabled]="!!newRel"
                    [id]="table.name" (cdkDragMoved)="table.pos = $event.source.getFreeDragPosition()"
-                   (mousedown)="tableClicked(table, $event)" [cdkDragFreeDragPosition]="tableModel.sourceP"
+                   (mousedown)="tableClicked(table, $event)" (mouseup)="targetSelected(table)"
+                   [class.src]="newRel && !newRel?.source" [class.trg]="newRel?.source && !newRel?.target"
+                   [cdkDragFreeDragPosition]="tableModel.sourceP"
                    [table]="table" cdkDrag cdkDragBoundary="#model-space" style="position: absolute;">
         </sql-table>
         <svg *ngIf="tables" style="position:absolute;width: 100%; height: 100%; top: 0; z-index: -1;">

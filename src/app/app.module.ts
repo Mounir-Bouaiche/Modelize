@@ -17,7 +17,7 @@ import {FilterByPipe, ModalComponent, WelcomeComponent} from './welcome/welcome.
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {FormsModule} from '@angular/forms';
-import {ModelEditorComponent} from './model-editor/model-editor.component';
+import {ModelEditorComponent, NewRelModalComponent} from './model-editor/model-editor.component';
 import {ModelToolsComponent} from './model-tools/model-tools.component';
 import {TableComponent} from './model-tools/table/table.component';
 import {RelationshipComponent} from './model-tools/relationship/relationship.component';
@@ -25,6 +25,20 @@ import {TablePropComponent} from './model-tools/table-prop/table-prop.component'
 import {MatMenuModule} from '@angular/material/menu';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSelectModule} from '@angular/material/select';
+import {ResultComponent } from './result/result.component';
+import {SqlComponent} from './result/sql/sql.component';
+import {AppendArrayPipe, JavaComponent} from './result/java/java.component';
+import {MatTabsModule} from '@angular/material/tabs';
+
+import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
+import { PhpComponent } from './result/php/php.component';
+export function getHighlightLanguages() {
+  return {
+    java: () => import('highlight.js/lib/languages/java'),
+    php: () => import('highlight.js/lib/languages/php'),
+    sql: () => import('highlight.js/lib/languages/sql')
+  };
+}
 
 @NgModule({
   declarations: [
@@ -37,7 +51,13 @@ import {MatSelectModule} from '@angular/material/select';
     RelationshipComponent,
     TablePropComponent,
     ModalComponent,
-    FilterByPipe
+    NewRelModalComponent,
+    ResultComponent,
+    SqlComponent,
+    JavaComponent,
+    FilterByPipe,
+    AppendArrayPipe,
+    PhpComponent
   ],
   imports: [
     BrowserModule,
@@ -56,9 +76,17 @@ import {MatSelectModule} from '@angular/material/select';
     MatMenuModule,
     MatCheckboxModule,
     MatSelectModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTabsModule,
+    HighlightModule
   ],
-  providers: [],
+  providers: [{
+    provide: HIGHLIGHT_OPTIONS,
+    useValue: {
+      languages: getHighlightLanguages(),
+      lineNumbers: true
+    }
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
