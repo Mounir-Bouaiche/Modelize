@@ -30,9 +30,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [
-              "src/assets/codecolor.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -96,9 +94,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [
-              "src/assets/codecolor.js"
-            ]
+            "scripts": []
           }
         },
         "lint": {

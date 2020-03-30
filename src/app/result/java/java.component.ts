@@ -125,8 +125,8 @@ export class JavaComponent implements OnInit {
     return 'package ' + packageN + '.' + camel_case(st) + ';';
   }
 
-  j_camel_case(name: any, b: boolean) {
-    camel_case(name, b);
+  fileName(name: string): string {
+    return camel_case(name, true) + '.java';
   }
 }
 
