@@ -3,8 +3,7 @@ import {MySQLType, TableModel} from '../../services/model.service';
 
 @Component({
   selector: 'sql-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss']
+  templateUrl: './table.component.html'
 })
 export class TableComponent implements OnInit, AfterViewChecked {
   @Input() table: TableModel;

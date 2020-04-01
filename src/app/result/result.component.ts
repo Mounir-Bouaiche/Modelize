@@ -21,8 +21,7 @@ export function camel_case(st: string, cap?: boolean) {
 
 @Component({
   selector: 'result',
-  templateUrl: './result.component.html',
-  styleUrls: ['./result.component.scss']
+  templateUrl: './result.component.html'
 })
 export class ResultComponent implements OnInit {
   model: Model;

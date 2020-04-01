@@ -5,8 +5,7 @@ import {RelationshipCardinality} from '../../model-tools/relationship/relationsh
 
 @Component({
   selector: 'sql',
-  templateUrl: './sql.component.html',
-  styleUrls: ['./sql.component.scss']
+  template: '<pre class="margin-less"><code class="w3-code margin-less" [lineNumbers]="true" [highlight]="code"></code></pre>'
 })
 export class SqlComponent implements OnInit {
   @Input() model: Model;

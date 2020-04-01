@@ -26,8 +26,7 @@ const TEMPLATE_REL = JSON.stringify({
 
 @Component({
   selector: 'model-editor',
-  templateUrl: './model-editor.component.html',
-  styleUrls: ['./model-editor.component.scss']
+  templateUrl: './model-editor.component.html'
 })
 export class ModelEditorComponent implements OnInit, AfterViewInit {
 

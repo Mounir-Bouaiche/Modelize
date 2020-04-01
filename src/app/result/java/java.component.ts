@@ -5,8 +5,18 @@ import {camel_case} from '../result.component';
 
 @Component({
   selector: 'java',
-  templateUrl: './java.component.html',
-  styleUrls: ['./java.component.scss']
+  template: `
+    <mat-form-field appearance="outline" class="blc">
+      <mat-label>Package Name</mat-label>
+      <input matInput [(ngModel)]="packageN">
+    </mat-form-field>
+    <mat-tab-group mat-align-tabs="start" class="w3-border">
+      <mat-tab *ngFor="let table of tables | append: model.tables : relTables" [label]="fileName(table.name)">
+    <pre class="margin-less"><code class="w3-code margin-less" [languages]="['java']"
+                                   [highlight]="convert(table)"></code></pre>
+      </mat-tab>
+    </mat-tab-group>
+  `
 })
 export class JavaComponent implements OnInit {
   @Input() model: Model;

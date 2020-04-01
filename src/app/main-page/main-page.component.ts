@@ -2,8 +2,14 @@ import {Component} from '@angular/core';
 
 @Component({
   selector: 'main-page',
-  templateUrl: './main-page.component.html',
-  styleUrls: ['./main-page.component.scss']
+  template: `
+    <mat-toolbar color="primary">
+      <span>S4 Angular Project</span>
+    </mat-toolbar>
+    <div class="card-container">
+      <router-outlet></router-outlet>
+    </div>
+  `
 })
 export class MainPageComponent {
 }

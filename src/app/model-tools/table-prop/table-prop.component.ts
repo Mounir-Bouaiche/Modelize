@@ -3,8 +3,7 @@ import {MySQLType, TableModel} from '../../services/model.service';
 
 @Component({
   selector: 'table-prop',
-  templateUrl: './table-prop.component.html',
-  styleUrls: ['./table-prop.component.scss']
+  templateUrl: './table-prop.component.html'
 })
 export class TablePropComponent implements OnInit {
   @Input() table: TableModel;
