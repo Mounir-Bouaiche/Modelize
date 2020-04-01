@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, Pipe, PipeTransform} from '@angular/core';
-import {Model, MySQLType, TableModel} from '../../services/model.service';
+import {Model, ModelService, MySQLType, TableModel} from '../../services/model.service';
 import {RelationshipCardinality} from '../../model-tools/relationship/relationship.component';
 import {camel_case} from '../result.component';
 
@@ -14,10 +14,17 @@ export class JavaComponent implements OnInit {
   relTables: TableModel[] = [];
   tables: TableModel[] = [];
 
+  constructor(
+    private modelService: ModelService
+  ) {
+  }
+
   ngOnInit(): void {
     this.model?.relationships.forEach(rel => {
       if (rel.type === RelationshipCardinality.MANY_TO_MANY) {
-        this.relTables.push({name: rel.name, fields: [{name: rel.source, type: rel.source}, {name: rel.target, type: rel.target}]});
+        let src = this.modelService.getTable(this.model, rel.source).name;
+        let trg = this.modelService.getTable(this.model, rel.target).name;
+        this.relTables.push({id: '', name: rel.name, fields: [{name: src, type: src}, {name: trg, type: trg}]});
       }
     });
   }
@@ -57,31 +64,34 @@ export class JavaComponent implements OnInit {
     });
     this.model.relationships.forEach(rel => {
       tp = '';
-      if (rel.source === table.name) {
+      let src = this.modelService.getTable(this.model, rel.source).name;
+      let trg = this.modelService.getTable(this.model, rel.target).name;
+      if (rel.source === table.id) {
         if (rel.type === RelationshipCardinality.ONE_TO_ONE) {
-          tp = camel_case(rel.target, true);
+          tp = camel_case(trg, true);
         } else if (rel.type === RelationshipCardinality.ONE_TO_MANY) {
-          tp = camel_case(rel.target, true) + '[]';
+          tp = camel_case(trg, true) + '[]';
         }
         if (tp !== '') {
-          constrcuct.push(tp + ' ' + camel_case(rel.target));
-          code += this.property(camel_case(rel.target), tp);
+          constrcuct.push(tp + ' ' + camel_case(trg));
+          code += this.property(camel_case(trg), tp);
         }
-      } else if (rel.target === table.name) {
+      } else if (rel.target === table.id) {
         if (rel.type === RelationshipCardinality.ONE_TO_ONE) {
-          tp = camel_case(rel.source, true);
+          tp = camel_case(src, true);
         } else if (rel.type === RelationshipCardinality.MANY_TO_ONE) {
-          tp = camel_case(rel.source, true) + '[]';
+          tp = camel_case(src, true) + '[]';
         }
         if (tp !== '') {
-          constrcuct.push(tp + ' ' + camel_case(rel.source));
-          code += this.property(camel_case(rel.source), tp);
+          constrcuct.push(tp + ' ' + camel_case(src));
+          code += this.property(camel_case(src), tp);
         }
       }
     });
     code += 'public ' + camel_case(table.name, true) + '(' + constrcuct.join(', ') + ') {';
-    table.fields.forEach(fld => {
-      code += 'this.' + camel_case(fld.name) + ' = ' + camel_case(fld.name) + ';';
+    constrcuct.forEach(fld => {
+      fld = camel_case(fld.split(' ')[1]);
+      code += 'this.' + fld + ' = ' + fld + ';';
     });
     code += '}';
     constrcuct.forEach(fld => {

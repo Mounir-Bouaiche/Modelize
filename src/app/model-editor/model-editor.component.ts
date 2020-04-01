@@ -9,6 +9,7 @@ import {Relationship, RelationshipCardinality} from '../model-tools/relationship
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 const TEMPLATE_TABLE = JSON.stringify({
+  id: '',
   name: 'Table',
   fields: [{
     name: 'id',
@@ -17,7 +18,7 @@ const TEMPLATE_TABLE = JSON.stringify({
 });
 
 const TEMPLATE_REL = JSON.stringify({
-  id: 'auto',
+  name: '',
   type: RelationshipCardinality.ONE_TO_ONE,
   source: '',
   target: ''
@@ -60,7 +61,7 @@ export class ModelEditorComponent implements OnInit, AfterViewInit {
 
   getTable(source: string): TableComponent {
     return this.tables.find(item => {
-      return item.table.name === source;
+      return item.table.id === source;
     });
   }
 
@@ -74,6 +75,7 @@ export class ModelEditorComponent implements OnInit, AfterViewInit {
         x: $e.clientX - this.space.getBoundingClientRect().x,
         y: $e.clientY - this.space.getBoundingClientRect().y
       };
+      this.newTable.id = this.modelService.uniq_table_id(this.selectedModel);
       const l = this.selectedModel.tables.push(this.newTable);
       this.selectedTable = this.selectedModel.tables[l - 1];
       this.newTable = undefined;
@@ -82,11 +84,11 @@ export class ModelEditorComponent implements OnInit, AfterViewInit {
     }
   }
 
-  tableClicked(table: TableModel, $event: MouseEvent) {
+  tableClicked(table: TableModel) {
     if (! this.newRel) {
       this.displayProp(table);
     } else {
-      this.newRel.source = table.name;
+      this.newRel.source = table.id;
     }
   }
 
@@ -104,8 +106,8 @@ export class ModelEditorComponent implements OnInit, AfterViewInit {
 
   targetSelected(table: TableModel) {
     if (this.newRel) {
-      if (this.newRel.source !== table.name) {
-        this.newRel.target = table.name;
+      if (this.newRel.source !== table.id) {
+        this.newRel.target = table.id;
         this.dialog.open(NewRelModalComponent, {
           maxWidth: '500px',
           data: {
@@ -119,11 +121,11 @@ export class ModelEditorComponent implements OnInit, AfterViewInit {
     }
   }
 
-  trackTables(index: number, table: TableModel) { return table.name; }
+  trackTables(index: number, table: TableModel) { return table.id; }
 
   deleteTable($event: MouseEvent, tablePos: number, tab: TableModel) {
     $event.stopPropagation();
-    this.selectedModel.relationships = this.selectedModel.relationships.filter(rel => rel.source !== tab.name && rel.target !== tab.name);
+    this.selectedModel.relationships = this.selectedModel.relationships.filter(rel => rel.source !== tab.id && rel.target !== tab.id);
     this.selectedModel.tables.splice(tablePos, 1);
     this.selectedTable = undefined;
   }
@@ -141,13 +143,13 @@ export class ModelEditorComponent implements OnInit, AfterViewInit {
       <mat-form-field appearance="outline" class="blc">
         <mat-label>Table Source</mat-label>
         <mat-select [(value)]="data.rel.source">
-          <mat-option *ngFor="let table of data.selectedModel.tables" [value]="table.name">{{ table.name }}</mat-option>
+          <mat-option *ngFor="let table of data.selectedModel.tables" [value]="table.id">{{ table.name }}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline" class="blc">
         <mat-label>Table Target</mat-label>
         <mat-select [(value)]="data.rel.target">
-          <mat-option *ngFor="let table of data.selectedModel.tables" [value]="table.name">{{ table.name }}</mat-option>
+          <mat-option *ngFor="let table of data.selectedModel.tables" [value]="table.id">{{ table.name }}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline" class="blc">

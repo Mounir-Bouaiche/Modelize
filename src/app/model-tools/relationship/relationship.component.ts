@@ -1,13 +1,25 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {TableComponent} from '../table/table.component';
+import {of} from 'rxjs';
 
 @Component({
   selector: '[relationship]',
   template: ''
 })
-export class RelationshipComponent {
+export class RelationshipComponent implements OnInit {
   @Input() source: TableComponent;
   @Input() target: TableComponent;
+
+  src: TableComponent;
+  trg: TableComponent;
+  ngOnInit(): void {
+    of(this.source).subscribe(value => {
+      if (value) this.src = value;
+    });
+    of (this.trg).subscribe(value => {
+      if (value) this.trg = value;
+    });
+  }
 }
 
 export enum RelationshipCardinality {

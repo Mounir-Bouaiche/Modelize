@@ -26,13 +26,14 @@
     <div class="w3-padding" style="overflow: auto">
       <div (mousedown)="add_table($event)" [class.new_loc]="newTable"
            id="model-space" style="height: 1000px; width: 5000px; position: relative">
-        <sql-table #tableModel *ngFor="let table of selectedModel.tables; index as i; trackBy: trackTables" [cdkDragDisabled]="!!newRel"
-                   [id]="table.name" (cdkDragMoved)="table.pos = $event.source.getFreeDragPosition()"
-                   (mousedown)="tableClicked(table, $event)" (mouseup)="targetSelected(table)"
-                   [class.src]="newRel && !newRel?.source" [class.trg]="newRel?.source && !newRel?.target"
+        <sql-table #tableModel *ngFor="let table of selectedModel.tables; index as i; trackBy: trackTables"
+                   cdkDrag cdkDragBoundary="#model-space" [cdkDragDisabled]="!!newRel"
+                   (cdkDragMoved)="table.pos = $event.source.getFreeDragPosition()"
                    [cdkDragFreeDragPosition]="tableModel.sourceP"
+                   (mousedown)="tableClicked(table)" (mouseup)="targetSelected(table)"
+                   [class.src]="newRel && !newRel?.source" [class.trg]="newRel?.source && !newRel?.target"
                    (onCloseClicked)="deleteTable($event, i, table)"
-                   [table]="table" cdkDrag cdkDragBoundary="#model-space" style="position: absolute;">
+                   [table]="table" style="position: absolute;" [id]="table.name">
         </sql-table>
         <svg *ngIf="tables" style="position:absolute;width: 100%; height: 100%; top: 0; z-index: -1;">
           <line relationship stroke="black" stroke-width="2" #line *ngFor="let rel of selectedModel.relationships"

@@ -15,22 +15,24 @@ export class SqlComponent implements OnInit {
   }
 
   err(rel, msg): string {
-    return `/*\nCouldn't convert RelationShip ${rel.name}:\n${msg}\n*/`;
+    return `/*\nCouldn't convert RelationShip ${rel.name}:\n    ${msg}    \n*/`;
   }
 
   get code(): string {
     const code: string[] = [];
     this.model.tables.forEach(tab => code.push(this.createTable(tab)));
     this.model.relationships.forEach(rel => {
-      let tab1 = this.model.tables.find(t => t.name === rel.source);
-      let tab2 = this.model.tables.find(t => t.name === rel.target);
+      let tab1 = this.model.tables.find(t => t.id === rel.source);
+      let tab2 = this.model.tables.find(t => t.id === rel.target);
       let fld1 = tab1?.fields.find(fld => fld.primary_key);
       let fld2 = tab2?.fields.find(fld => fld.primary_key);
       let relName = camel_case(rel.name);
-      let S = camel_case(rel.source);
-      let T = camel_case(rel.target);
-      let S_F = camel_case(fld1.name);
-      let T_F = camel_case(fld2.name);
+      let S = camel_case(tab1.name);
+      let T = camel_case(tab2.name);
+      let S_F: string;
+      if (fld1) S_F = camel_case(fld1.name);
+      let T_F: string;
+      if (fld2) T_F = camel_case(fld2.name);
 
       if (rel.type === RelationshipCardinality.MANY_TO_MANY) {
         if (fld1 && fld2) {
@@ -42,7 +44,7 @@ export class SqlComponent implements OnInit {
           }));
           code.push(this.fk(relName, S_F, S));
           code.push(this.fk(relName, T_F, T));
-        } else code.push('you must have a primary key column on both tables');
+        } else code.push(this.err(rel, 'you must have a primary key column on both tables'));
       } else {
         if (rel.type === RelationshipCardinality.ONE_TO_MANY || rel.type === RelationshipCardinality.ONE_TO_ONE) {
           if (fld2) {
